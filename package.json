@@ -1,0 +1,25 @@
+{
+    "name": "the-archive-backend",
+    "version": "1.0.0",
+    "description": "Backend API for The Archive. A resource for viewing projects by Clayton Ward.",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/theclayton/the-archive-backend.git"
+    },
+    "author": "Clayton Ward",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/theclayton/the-archive-backend/issues"
+    },
+    "homepage": "https://github.com/theclayton/the-archive-backend#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-async-handler": "^1.1.4",
+        "mongoose": "^5.10.2"
+    }
+}
