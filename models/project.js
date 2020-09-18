@@ -4,20 +4,22 @@ const projectSchema = new mongoose.Schema({
     title: { type: String, required: true, unique: true },
     subtitle: { type: String, required: true },
     category: { type: String, required: true },
-    dateCreated: { type: Date },
-    technologies: { type: [String] },
+    dateCreated: { type: Date, required: true },
+    technologies: [{
+        name: { type: String }
+    }],
     description: { type: String, required: true },
     links: [{
-        name: { type: String, required: true },
-        type: { type: String, required: true },
-        url: { type: String, required: true },
+        name: { type: String, required: false },
+        type: { type: String, required: false },
+        url: { type: String, required: false }
     }],
     images: [{
-        name: { type: String, required: true },
-        src: { type: String, required: true },
-        caption: { type: String, required: true },
-        width: { type: Number, required: true },
-        height: { type: Number, required: true },
+        name: { type: String, required: false },
+        src: { type: String, required: false },
+        caption: { type: String, required: false },
+        width: { type: Number, required: false },
+        height: { type: Number, required: false }
     }]
 });
 
