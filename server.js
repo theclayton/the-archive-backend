@@ -12,3 +12,6 @@ module.exports = server;
 // Set environment variables:
 // set MONGO_URI=mongodb://localhost/archive
 // set JWT_PRIVATE_KEY=1234
+/// on Mac:
+// export MONGO_URI=mongodb://localhost/archive
+// export JWT_PRIVATE_KEY=1234

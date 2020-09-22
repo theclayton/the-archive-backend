@@ -14,6 +14,8 @@ router.get('/me', auth, asyncHandler(async(req, res) => {
 }));
 
 router.post('/create', asyncHandler(async(req, res) => {
+    // TODO: ADD AUTHORIZATION
+
     const error = validateUser(req.body);
     if (error) return res.status(400).send(error.message);
 
