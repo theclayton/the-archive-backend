@@ -4,9 +4,11 @@ const projectSchema = new mongoose.Schema({
     title: { type: String, required: true, unique: true },
     subtitle: { type: String, required: true },
     category: { type: String, required: true },
+    thumbnail: { type: String, required: true },
     dateCreated: { type: Date, required: true },
     technologies: [{
-        name: { type: String }
+        name: { type: String },
+        src: { type: String }
     }],
     description: { type: String, required: true },
     links: [{
