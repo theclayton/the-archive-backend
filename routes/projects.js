@@ -6,8 +6,17 @@ const router = express.Router();
 router.get('/', asyncHandler(async(req, res) => {
     const projects = await Project.find();
 
-    res.send(projects);
+    res.send({ message: "success", projects: projects });
 }));
+
+
+router.get('/:name', asyncHandler(async(req, res) => {
+    const projectName = decodeURI(req.params.name)
+    const project = await Project.findOne({ title: projectName });
+
+    res.send({ message: "success", project: project });
+}));
+
 
 router.post('/', asyncHandler(async(req, res) => {
     const error = validate(req.body);
@@ -16,7 +25,7 @@ router.post('/', asyncHandler(async(req, res) => {
     const project = create(req.body);
     const dbSave = await project.save();
 
-    res.send(dbSave);
+    res.send({ message: "success", projects: dbSave });
 }));
 
 module.exports = router;

@@ -32,6 +32,7 @@ function createProject(project) {
         title: project.title,
         subtitle: project.subtitle,
         category: project.category,
+        thumbnail: project.thumbnail,
         dateCreated: new Date(project.dateCreated),
         technologies: project.technologies,
         description: project.description,
@@ -52,6 +53,9 @@ function validateProject(project) {
     }
     if (!project.category) {
         error = { status: 400, message: 'Category is required.' }
+    }
+    if (!project.thumbnail) {
+        error = { status: 400, message: 'Thumbnail is required.' }
     }
     if (!project.dateCreated) {
         error = { status: 400, message: 'Date Created is required.' }
