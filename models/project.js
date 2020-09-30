@@ -5,12 +5,13 @@ const projectSchema = new mongoose.Schema({
     subtitle: { type: String, required: true },
     category: { type: String, required: true },
     thumbnail: { type: String, required: true },
-    dateCreated: { type: Date, required: true },
-    technologies: [{
-        name: { type: String },
-        src: { type: String }
-    }],
+    featured: { type: String, required: true },
     description: { type: String, required: true },
+    dateCreated: { type: Date, required: false },
+    technologies: [{
+        name: { type: String, required: false },
+        src: { type: String, required: false }
+    }],
     links: [{
         name: { type: String, required: false },
         type: { type: String, required: false },
@@ -27,17 +28,18 @@ const projectSchema = new mongoose.Schema({
 
 const Project = mongoose.model('Project', projectSchema);
 
-function createProject(project) {
+function createProject(title) {
     const projectFromReqBody = new Project({
-        title: project.title,
-        subtitle: project.subtitle,
-        category: project.category,
-        thumbnail: project.thumbnail,
-        dateCreated: new Date(project.dateCreated),
-        technologies: project.technologies,
-        description: project.description,
-        links: project.links,
-        images: project.images,
+        title: title,
+        subtitle: " ",
+        category: " ",
+        thumbnail: " ",
+        featured: "no",
+        description: " ",
+        dateCreated: new Date(),
+        technologies: [],
+        links: [],
+        images: [],
     });
     return projectFromReqBody
 }
@@ -57,20 +59,23 @@ function validateProject(project) {
     if (!project.thumbnail) {
         error = { status: 400, message: 'Thumbnail is required.' }
     }
+    if (!project.description) {
+        error = { status: 400, message: 'Description is required.' }
+    }
+    if (!project.featured) {
+        error = { status: 400, message: 'Featured status is required.' }
+    }
     if (!project.dateCreated) {
         error = { status: 400, message: 'Date Created is required.' }
     }
     if (!project.technologies) {
         error = { status: 400, message: 'Technologies is required.' }
     }
-    if (!project.description) {
-        error = { status: 400, message: 'Description is required.' }
-    }
     if (!project.links) {
         error = { status: 400, message: 'Links is required. Send empty array if no items present.' }
     }
     if (!project.images) {
-        error = { status: 400, message: 'Title is required. Send empty array if no items present.' }
+        error = { status: 400, message: 'Images is required. Send empty array if no items present.' }
     }
 
     return error
