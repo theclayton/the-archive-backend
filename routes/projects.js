@@ -11,15 +11,24 @@ router.get('/', asyncHandler(async(req, res) => {
 
 
 router.get('/:name', asyncHandler(async(req, res) => {
-    const projectName = decodeURI(req.params.name)
-    const project = await Project.findOne({ title: projectName });
+    const title = decodeURI(req.params.name)
+    const project = await Project.findOne({ title: title });
 
     res.send({ message: "success", project: project });
 }));
 
 
+router.get('/search/technologies', asyncHandler(async(req, res) => {
+    const projects = await Project.distinct("technologies.name");
+    if (!projects) return res.send({ message: "No technologies found." });
+    console.log(projects);
+
+    res.send({ message: "success", technologies: projects });
+}));
+
+
 router.get('/featured/:type', asyncHandler(async(req, res) => {
-    const type = String(req.params.type)
+    const type = String(decodeURI(req.params.type));
     const projects = await Project.find({ featured: type });
 
     res.send({ message: "success", projects: projects });
@@ -27,8 +36,8 @@ router.get('/featured/:type', asyncHandler(async(req, res) => {
 
 
 router.post('/featured/:type', asyncHandler(async(req, res) => {
-    const type = String(req.params.type)
-    const projects = req.body
+    const type = String(decodeURI(req.params.type));
+    const projects = req.body;
 
     const oldProjects = await Project.find({ featured: type });
     for (let i = 0; i < oldProjects.length; i++) {
@@ -95,7 +104,7 @@ router.put('/', asyncHandler(async(req, res) => {
 
         const dbSave = await existingProject.save();
 
-        res.send({ message: "success", projects: dbSave });
+        res.send({ message: "success", project: dbSave });
 
     } else {
         res.send({ message: "Project does not exist." });
@@ -103,15 +112,16 @@ router.put('/', asyncHandler(async(req, res) => {
 }));
 
 
-router.delete('/', asyncHandler(async(req, res) => {
+router.delete('/delete/:title', asyncHandler(async(req, res) => {
     // TODO: ADD ADMIN ONLY AUTHORIZATION AND VALIDATION
+    const title = String(decodeURI(req.params.title));
 
-    const project = await Project.findOne({ title: req.body.title });
-    if (!project) return res.status(403).send('Project does not exist.');
+    const project = await Project.findOne({ title: title });
+    if (!project) return res.status(403).send({ message: 'Project does not exist.' });
 
-    await Project.deleteOne({ title: req.body.title })
+    await Project.deleteOne({ title: title });
 
-    res.send({ message: "success", project: project });
+    res.send({ message: "success" });
 }));
 
 
