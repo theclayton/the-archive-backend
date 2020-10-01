@@ -19,11 +19,13 @@ router.get('/:name', asyncHandler(async(req, res) => {
 
 
 router.get('/search/technologies', asyncHandler(async(req, res) => {
-    const projects = await Project.distinct("technologies.name");
-    if (!projects) return res.send({ message: "No technologies found." });
-    console.log(projects);
+    const names = await Project.distinct("technologies.name");
+    const srcs = await Project.distinct("technologies.src");
 
-    res.send({ message: "success", technologies: projects });
+    if (!names) return res.send({ message: "No technologies found." });
+    if (!srcs) return res.send({ message: "No technologies found." });
+
+    res.send({ message: "success", names: names, srcs: srcs });
 }));
 
 
