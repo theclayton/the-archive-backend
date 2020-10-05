@@ -1,5 +1,6 @@
 const express = require('express');
 const projectsRoute = require('./routes/projects');
+const searchRoute = require('./routes/search');
 const usersRoute = require('./routes/users');
 const authRoute = require('./routes/auth');
 const fileUpload = require('express-fileupload');
@@ -17,6 +18,7 @@ module.exports = function(app) {
         next()
     });
     app.use('/api/projects', projectsRoute);
+    app.use('/api/search', searchRoute);
     app.use('/api/users', usersRoute);
     app.use('/api/auth', authRoute);
     app.use(fileUpload());

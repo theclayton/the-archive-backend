@@ -12,7 +12,9 @@ module.exports = server;
 // Set environment variables:
 // set MONGO_URI=mongodb://localhost/archive
 // set JWT_PRIVATE_KEY=1234
-// set UPLOADS_PATH=
+// ***Need to create text index on db for searching. Database command: 
+// db.projects.createIndex( { title: "text", subtitle: "text", technologies: "text" } )
+//
 /// on Mac:
 // export MONGO_URI=mongodb://localhost/archive
 // export JWT_PRIVATE_KEY=1234

@@ -18,7 +18,7 @@ router.get('/:name', asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/search/technologies', asyncHandler(async(req, res) => {
+router.get('/unique/technologies', asyncHandler(async(req, res) => {
     const names = await Project.distinct("technologies.name");
     const srcs = await Project.distinct("technologies.src");
 
