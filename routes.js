@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require("helmet");
 const projectsRoute = require('./routes/projects');
 const searchRoute = require('./routes/search');
 const usersRoute = require('./routes/users');
@@ -9,6 +10,7 @@ const error = require('./middleware/error');
 
 
 module.exports = function(app) {
+    app.use(helmet());
     app.use(express.json());
     app.use(express.static('uploads'));
     app.use((req, res, next) => {

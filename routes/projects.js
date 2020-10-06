@@ -19,13 +19,29 @@ router.get('/:name', asyncHandler(async(req, res) => {
 
 
 router.get('/unique/technologies', asyncHandler(async(req, res) => {
-    const names = await Project.distinct("technologies.name");
-    const srcs = await Project.distinct("technologies.src");
+    const techs = await Project.distinct("technologies")
+    if (!techs) return res.send({ message: "No technologies found." });
 
-    if (!names) return res.send({ message: "No technologies found." });
-    if (!srcs) return res.send({ message: "No technologies found." });
+    let clean = techs.map(tech => {
+        return { name: tech.name, src: tech.src }
+    })
 
-    res.send({ message: "success", names: names, srcs: srcs });
+    let unique = clean.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+            t.name === thing.name && t.src === thing.src
+        ))
+    )
+    res.send({ message: "success", techs: unique });
+}));
+
+
+router.get('/recent/projects', asyncHandler(async(req, res) => {
+    const projects = await Project.find()
+    if (!projects) return res.send({ message: "No Projects found." });
+
+    let recent = projects.sort((a, b) => b.dateCreated - a.dateCreated).slice(0, 10)
+
+    res.send({ message: "success", projects: recent });
 }));
 
 
