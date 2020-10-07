@@ -2,11 +2,10 @@ const asyncHandler = require('express-async-handler')
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-const { count } = require('console');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
-router.post('/', asyncHandler(async(req, res) => {
-    // TODO: ADD AUTHORIZATION
-
+router.post('/', auth, admin, asyncHandler(async(req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send({ message: 'No files were uploaded.' });
     }

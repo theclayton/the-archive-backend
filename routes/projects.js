@@ -2,15 +2,17 @@ const { Project, validate, create } = require('../models/project');
 const asyncHandler = require('express-async-handler')
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
-router.get('/', asyncHandler(async(req, res) => {
+router.get('/', auth, asyncHandler(async(req, res) => {
     const projects = await Project.find();
 
     res.send({ message: "success", projects: projects });
 }));
 
 
-router.get('/:name', asyncHandler(async(req, res) => {
+router.get('/:name', auth, asyncHandler(async(req, res) => {
     const title = decodeURI(req.params.name)
     const project = await Project.findOne({ title: title });
 
@@ -18,7 +20,7 @@ router.get('/:name', asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/unique/technologies', asyncHandler(async(req, res) => {
+router.get('/unique/technologies', auth, asyncHandler(async(req, res) => {
     const techs = await Project.distinct("technologies")
     if (!techs) return res.send({ message: "No technologies found." });
 
@@ -35,7 +37,7 @@ router.get('/unique/technologies', asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/recent/projects', asyncHandler(async(req, res) => {
+router.get('/recent/projects', auth, asyncHandler(async(req, res) => {
     const projects = await Project.find()
     if (!projects) return res.send({ message: "No Projects found." });
 
@@ -45,7 +47,7 @@ router.get('/recent/projects', asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/featured/:type', asyncHandler(async(req, res) => {
+router.get('/featured/:type', auth, asyncHandler(async(req, res) => {
     const type = String(decodeURI(req.params.type));
     const projects = await Project.find({ featured: type });
 
@@ -53,7 +55,7 @@ router.get('/featured/:type', asyncHandler(async(req, res) => {
 }));
 
 
-router.post('/featured/:type', asyncHandler(async(req, res) => {
+router.post('/featured/:type', auth, admin, asyncHandler(async(req, res) => {
     const type = String(decodeURI(req.params.type));
     const projects = req.body;
 
@@ -79,9 +81,7 @@ router.post('/featured/:type', asyncHandler(async(req, res) => {
 }));
 
 
-router.post('/create', asyncHandler(async(req, res) => {
-    // TODO: ADD ADMIN ONLY AUTHENTICATION
-
+router.post('/create', auth, admin, asyncHandler(async(req, res) => {
     const existingProject = await Project.findOne({ title: req.body.title });
     if (existingProject) return res.send({ message: "Project with that name already exists." });
 
@@ -92,9 +92,7 @@ router.post('/create', asyncHandler(async(req, res) => {
 }));
 
 
-router.put('/', asyncHandler(async(req, res) => {
-    // TODO: ADD ADMIN ONLY AUTHENTICATION
-
+router.put('/', auth, admin, asyncHandler(async(req, res) => {
     const title = req.body.title
     if (!title) return res.status(400).send({ message: "Current project title is required." })
 
@@ -130,8 +128,7 @@ router.put('/', asyncHandler(async(req, res) => {
 }));
 
 
-router.delete('/delete/:title', asyncHandler(async(req, res) => {
-    // TODO: ADD ADMIN ONLY AUTHORIZATION AND VALIDATION
+router.delete('/delete/:title', auth, admin, asyncHandler(async(req, res) => {
     const title = String(decodeURI(req.params.title));
 
     const project = await Project.findOne({ title: title });
