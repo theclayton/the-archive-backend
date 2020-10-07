@@ -13,7 +13,7 @@ module.exports = server;
 // set MONGO_URI=mongodb://localhost/archive
 // set JWT_PRIVATE_KEY=1234
 // ***Need to create text index on db for searching. Database command: 
-// db.projects.createIndex( { title: "text", subtitle: "text", technologies: "text" } )
+// db.projects.createIndex( { title: "text", subtitle: "text", "technologies.name": "text" } )
 //
 /// on Mac:
 // export MONGO_URI=mongodb://localhost/archive

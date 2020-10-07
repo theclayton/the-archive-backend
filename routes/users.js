@@ -7,18 +7,18 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 
-router.get('/me', auth, asyncHandler(async(req, res) => {
+router.get('/me', auth, asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
     res.send(user);
 }));
 
-router.get('/', auth, admin, asyncHandler(async(req, res) => {
+router.get('/', auth, admin, asyncHandler(async (req, res) => {
     const users = await User.find();
 
     res.send({ message: "success", users: users });
 }));
 
-router.post('/create', auth, admin, asyncHandler(async(req, res) => {
+router.post('/create', auth, admin, asyncHandler(async (req, res) => {
     const error = validateUser(req.body);
     if (error) return res.status(400).send(error.message);
 
@@ -33,7 +33,7 @@ router.post('/create', auth, admin, asyncHandler(async(req, res) => {
     res.send({ message: "success", user: user });
 }));
 
-router.put('/', auth, admin, asyncHandler(async(req, res) => {
+router.put('/', auth, admin, asyncHandler(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(403).send('User does not exist.');
 
@@ -45,7 +45,7 @@ router.put('/', auth, admin, asyncHandler(async(req, res) => {
     res.send({ message: "success", user: user });
 }));
 
-router.delete('/', auth, admin, asyncHandler(async(req, res) => {
+router.delete('/', auth, admin, asyncHandler(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(403).send('User does not exist.');
 
@@ -55,7 +55,7 @@ router.delete('/', auth, admin, asyncHandler(async(req, res) => {
 }));
 
 
-router.put('/change-password', auth, asyncHandler(async(req, res) => {
+router.put('/change-password', auth, asyncHandler(async (req, res) => {
     const email = req.body.email
     if (!email) return res.status(400).send({ message: 'Email is required.' });
     // SPECIAL CASE
