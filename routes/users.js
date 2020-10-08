@@ -6,10 +6,6 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 
-router.get('/me', auth, asyncHandler(async(req, res) => {
-    const user = await User.findById(req.user._id).select('-password');
-    res.send(user);
-}));
 
 router.get('/', auth, admin, asyncHandler(async(req, res) => {
     const users = await User.find();
@@ -45,11 +41,13 @@ router.put('/', auth, admin, asyncHandler(async(req, res) => {
     res.send({ message: "success" });
 }));
 
-router.post('/delete', auth, admin, asyncHandler(async(req, res) => {
-    const user = await User.findOne({ email: req.body.email });
+router.delete('/:email', auth, admin, asyncHandler(async(req, res) => {
+    const email = String(decodeURI(req.params.email));
+
+    const user = await User.findOne({ email: email });
     if (!user) return res.status(403).send('User does not exist.');
 
-    await User.deleteOne({ email: req.body.email })
+    await User.deleteOne({ email: email })
 
     res.send({ message: "success" });
 }));
