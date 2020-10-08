@@ -2,38 +2,38 @@ const { User, validateUser } = require('../models/user');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const asyncHandler = require('express-async-handler')
-const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 
-router.get('/me', auth, asyncHandler(async (req, res) => {
+router.get('/me', auth, asyncHandler(async(req, res) => {
     const user = await User.findById(req.user._id).select('-password');
     res.send(user);
 }));
 
-router.get('/', auth, admin, asyncHandler(async (req, res) => {
+router.get('/', auth, admin, asyncHandler(async(req, res) => {
     const users = await User.find();
 
     res.send({ message: "success", users: users });
 }));
 
-router.post('/create', auth, admin, asyncHandler(async (req, res) => {
+router.post('/create', auth, admin, asyncHandler(async(req, res) => {
     const error = validateUser(req.body);
     if (error) return res.status(400).send(error.message);
 
     const user = await User.findOne({ email: req.body.email });
     if (user) return res.status(403).send('User already registered.');
 
-    user = new User(_.pick(req.body, ['name', 'email', 'password', 'authLevel']));
-    const salt = await bcrypt.genSalt(16);
-    user.password = await bcrypt.hash(user.password, salt);
-    await user.save();
+    const newUser = new User({ name: req.body.name, email: req.body.email, password: req.body.password, authLevel: req.body.authLevel });
 
-    res.send({ message: "success", user: user });
+    const salt = await bcrypt.genSalt(16);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    await newUser.save();
+
+    res.send({ message: "success" });
 }));
 
-router.put('/', auth, admin, asyncHandler(async (req, res) => {
+router.put('/', auth, admin, asyncHandler(async(req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(403).send('User does not exist.');
 
@@ -42,20 +42,20 @@ router.put('/', auth, admin, asyncHandler(async (req, res) => {
 
     await user.save();
 
-    res.send({ message: "success", user: user });
+    res.send({ message: "success" });
 }));
 
-router.delete('/', auth, admin, asyncHandler(async (req, res) => {
+router.post('/delete', auth, admin, asyncHandler(async(req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(403).send('User does not exist.');
 
     await User.deleteOne({ email: req.body.email })
 
-    res.send({ message: "success", user: user });
+    res.send({ message: "success" });
 }));
 
 
-router.put('/change-password', auth, asyncHandler(async (req, res) => {
+router.put('/change-password', auth, asyncHandler(async(req, res) => {
     const email = req.body.email
     if (!email) return res.status(400).send({ message: 'Email is required.' });
     // SPECIAL CASE

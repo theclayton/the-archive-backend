@@ -1,6 +1,5 @@
 const { User, validateLogin, getTokenInfo } = require('../models/user');
 const asyncHandler = require('express-async-handler')
-const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
