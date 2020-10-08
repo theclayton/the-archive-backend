@@ -15,6 +15,6 @@ module.exports = server;
 // ***Need to create text index on db for searching. Database command: 
 // db.projects.createIndex( { title: "text", subtitle: "text", "technologies.name": "text" } )
 //
-/// on Mac:
+/// on Unix:
 // export MONGO_URI=mongodb://localhost/archive
 // export JWT_PRIVATE_KEY=1234
