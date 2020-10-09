@@ -18,3 +18,5 @@ module.exports = server;
 /// on Unix:
 // export MONGO_URI=mongodb://localhost/archive
 // export JWT_PRIVATE_KEY=1234
+// export PORT=20202
+// node server.js > stdout.txt 2> stderr.txt &
