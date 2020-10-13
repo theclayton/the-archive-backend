@@ -5,14 +5,14 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
-router.get('/', auth, asyncHandler(async(req, res) => {
+router.get('/', asyncHandler(async(req, res) => {
     const projects = await Project.find();
 
     res.send({ message: "success", projects: projects });
 }));
 
 
-router.get('/:name', auth, asyncHandler(async(req, res) => {
+router.get('/:name', asyncHandler(async(req, res) => {
     const title = decodeURI(req.params.name)
     const project = await Project.findOne({ title: title });
 
@@ -20,7 +20,7 @@ router.get('/:name', auth, asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/unique/technologies', auth, asyncHandler(async(req, res) => {
+router.get('/unique/technologies', asyncHandler(async(req, res) => {
     const techs = await Project.distinct("technologies")
     if (!techs) return res.send({ message: "No technologies found." });
 
@@ -37,7 +37,7 @@ router.get('/unique/technologies', auth, asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/recent/projects', auth, asyncHandler(async(req, res) => {
+router.get('/recent/projects', asyncHandler(async(req, res) => {
     const projects = await Project.find()
     if (!projects) return res.send({ message: "No Projects found." });
 
@@ -47,7 +47,7 @@ router.get('/recent/projects', auth, asyncHandler(async(req, res) => {
 }));
 
 
-router.get('/featured/:type', auth, asyncHandler(async(req, res) => {
+router.get('/featured/:type', asyncHandler(async(req, res) => {
     const type = String(decodeURI(req.params.type));
     const projects = await Project.find({ featured: type });
 

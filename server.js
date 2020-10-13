@@ -12,11 +12,14 @@ module.exports = server;
 // Set environment variables:
 // set MONGO_URI=mongodb://localhost/archive
 // set JWT_PRIVATE_KEY=1234
-// ***Need to create text index on db for searching. Database command: 
+// ***Need to create text index on db for searching. Database command:
 // db.projects.createIndex( { title: "text", subtitle: "text", "technologies.name": "text" } )
 //
 /// on Unix:
 // export MONGO_URI=mongodb://localhost/archive
 // export JWT_PRIVATE_KEY=1234
+//
+// Production:
 // export PORT=20202
+// export NODE_ENV=production
 // node server.js > stdout.txt 2> stderr.txt &
