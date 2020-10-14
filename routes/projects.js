@@ -41,7 +41,7 @@ router.get('/recent/projects', asyncHandler(async(req, res) => {
     const projects = await Project.find()
     if (!projects) return res.send({ message: "No Projects found." });
 
-    let recent = projects.sort((a, b) => b.dateCreated - a.dateCreated).slice(0, 10)
+    let recent = projects.sort((a, b) => b.dateCreated - a.dateCreated).slice(0, 8)
 
     res.send({ message: "success", projects: recent });
 }));
