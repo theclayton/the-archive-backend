@@ -22,4 +22,3 @@ module.exports = server;
 // Production:
 // export PORT=20202
 // export NODE_ENV=production
-// node server.js > stdout.txt 2> stderr.txt &
