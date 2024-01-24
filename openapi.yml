@@ -1,0 +1,388 @@
+openapi: 3.0.0
+info:
+  title: The Archive Backend
+  version: 1.1.0
+servers:
+  - url: http://localhost:3000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Projects
+  - name: Auth
+  - name: Users
+paths:
+  /api/projects:
+    get:
+      tags:
+        - Projects
+      summary: api/projects
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/{name}:
+    get:
+      tags:
+        - Projects
+      summary: api/projects/name
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/unique/technologies:
+    get:
+      tags:
+        - Projects
+      summary: api/projects/unique/technologies
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/recent/projects:
+    get:
+      tags:
+        - Projects
+      summary: api/projects/recent/projects
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/featured/home:
+    get:
+      tags:
+        - Projects
+      summary: api/projects/featured/home
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Projects
+      summary: api/projects/featured/home
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - title: My Project
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/create:
+    post:
+      tags:
+        - Projects
+      summary: api/projects/create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: My Project Test
+      parameters:
+        - name: archive-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR3Vlc3QiLCJhdXRoTGV2ZWwiOiJHdWVzdCIsImlhdCI6MTYwMjEwMjY3NSwiZXhwIjoxNjAyMTMxNDc1fQ.8Bz0xdUm2Lwl-gV7ZdtM3AJFjm7jHr1rPKbOgvx3AAQ
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/:
+    put:
+      tags:
+        - Projects
+      summary: api/projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: The Archive
+                subtitle: My software portfolio
+                category: Web
+                thumbnail: https://api-archive.flaresoftware.com/archivethumb.png
+                featured: home
+                description: >2-
+                   Hello! Thank you for browsing The Archive. I am Clayton Ward, the developer of this site. I have years of software development experience and decided to create this site as a place to display all of my projects.
+
+                  This site was developed with Angular using TypeScript, HTML
+                  and CSS. The back-end is a RESTful API I built, running
+                  Express and MongoDB. Feel free to explore the API with the
+                  link towards the top right of this page. The front-end of this
+                  site is stored on one of my GoDaddy Apache servers, which I
+                  also use for my freelance work and company Flare Software LC.
+                  The back-end is a Google Cloud Platform Debian Linux instance
+                  running NodeJS along with MongoDB. File uploads are also
+                  stored on the same instance for simplicity and speed.
+
+
+                  I published this site for the very first time on October 8,
+                  2020. Feel free to browse my projects, by scrolling through
+                  the list of All Projects. Or by searching for projects or
+                  technologies and languages used. Also don't miss the featured
+                  projects on the home page.
+                dateCreated: "2020-10-09T01:01:54.541Z"
+                technologies:
+                  - name: HTML
+                    src: https://api-archive.flaresoftware.com/HTML5_badge.png
+                  - name: Angular
+                    src: https://api-archive.flaresoftware.com/angular.png
+                  - name: TypeScript
+                    src: https://api-archive.flaresoftware.com/typescript.png
+                  - name: JavaScript
+                    src: https://api-archive.flaresoftware.com/javascript.png
+                  - name: CSS
+                    src: https://api-archive.flaresoftware.com/css.png
+                  - name: MongoDB
+                    src: https://api-archive.flaresoftware.com/mongodb.png
+                  - name: NodeJS
+                    src: https://api-archive.flaresoftware.com/nodejs_2.png
+                  - name: Gimp
+                    src: https://api-archive.flaresoftware.com/gimp.png
+                links:
+                  - name: View on Github
+                    type: Github
+                    url: https://github.com/theclayton/the-archive
+                images:
+                  - name: The Archive
+                    src: >-
+                      https://api-archive.flaresoftware.com/Screen Shot
+                      2020-10-08 at 11.25.54 PM.png
+                    caption: Using the Archive CMS I built.
+                    height: 400
+                    width: 650
+      parameters:
+        - name: archive-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQ2xheXRvbiIsImF1dGhMZXZlbCI6IkFkbWluIiwiaWF0IjoxNjA3NDA1ODExLCJleHAiOjE2MDc0MzQ2MTF9.rT06kyQkRMOGiac6PybIjhFzVZUIMO0KWzRv0Lzuz64
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/projects/delete/{name}:
+    delete:
+      tags:
+        - Projects
+      summary: api/projects/delete/name
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: api/auth/login
+      description: Get Auth token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin@flaresoftware.com
+                password: password
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/login/getinfo:
+    post:
+      tags:
+        - Auth
+      summary: api/auth/login/getinfo
+      description: POST login/getinfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                token: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2xheXRvbiIsImF1dGhMZXZlbCI6ImFkbWluIiwiaWF0IjoxNTk5NTEzMjAyLCJleHAiOjE1OTk1NDIwMDJ9.MgfdKE46q_jIb4CA4TuzVXqb4JhwCvwokGJQzaTiDjU
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: api/users
+      parameters:
+        - name: archive-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2xheXRvbiIsImF1dGhMZXZlbCI6ImFkbWluIiwiaWF0IjoxNjAxNDEwNDY5LCJleHAiOjE2MDE0MzkyNjl9.gOVZ8SbK1ed6sSZBTUkKB6twxY0q46rD-vt65o8Yv6Q
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Users
+      summary: api/users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Clayton
+                email: clayton@flaresoftware.com
+                authLevel: Admin
+      parameters:
+        - name: archive-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2xheXRvbiIsImF1dGhMZXZlbCI6ImFkbWluIiwiaWF0IjoxNjAxNDEyOTYwLCJleHAiOjE2MDE0NDE3NjB9.DxeRHksYEnr6QKqVW533NpvLhmSqSLax5jLmNbhlQdU
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/create:
+    post:
+      tags:
+        - Users
+      summary: api/users/create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Test2
+                email: test2@flaresoftware.com
+                password: test1234
+                authLevel: Guest
+      parameters:
+        - name: archive-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2xheXRvbiIsImF1dGhMZXZlbCI6IkFkbWluIiwiaWF0IjoxNjAyMTA5MTg2LCJleHAiOjE2MDIxMzc5ODZ9.FKMYirxSXC2jFzVaWcf8zEhaMO6aGyXfU4tXkILH42o
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/change-password:
+    put:
+      tags:
+        - Users
+      summary: api/users/change-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: guest@flaresoftware.com
+                password: "12345"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/:email:
+    delete:
+      tags:
+        - Users
+      summary: api/users
+      parameters:
+        - name: archive-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQ2xheXRvbiIsImF1dGhMZXZlbCI6IkFkbWluIiwiaWF0IjoxNjAyMTkwNDYxLCJleHAiOjE2MDIyMTkyNjF9.zohXZye7NzN2opTjp7QmAFjX1jFzKI_kaqFYzFY1TyY
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/search:
+    get:
+      tags:
+        - default
+      summary: api/search?terms=xcode
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/upload:
+    post:
+      tags:
+        - default
+      summary: api/upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /healthcheck:
+    get:
+      tags:
+        - default
+      summary: healthcheck
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
