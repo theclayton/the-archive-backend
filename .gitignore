@@ -3,6 +3,8 @@
 # Uploaded files from the archive
 /uploads
 
+.vscode
+
 # compiled output
 /dist
 /tmp

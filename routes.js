@@ -9,7 +9,7 @@ const uploadRoute = require('./routes/upload');
 const error = require('./middleware/error');
 
 
-module.exports = function(app) {
+module.exports = function (app) {
     app.use(helmet());
     app.use(express.json());
     app.use(express.static('uploads'));
@@ -25,5 +25,8 @@ module.exports = function(app) {
     app.use('/api/auth', authRoute);
     app.use(fileUpload());
     app.use('/api/upload', uploadRoute);
+    app.get('/healthcheck', (req, res) => {
+        res.send('OK');
+    });
     app.use(error);
 }
